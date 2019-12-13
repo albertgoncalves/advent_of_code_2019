@@ -11,11 +11,16 @@ type bounds = {
     mutable right : int;
 }
 
+type position = {
+    x : int;
+    y : int;
+}
+
 type grid = {
     buffer : char array;
     width : int;
     height : int;
-    start : int;
+    start : position;
 }
 
 let parse (s : string) : move option =
@@ -62,24 +67,30 @@ let select (width : int) (j : int) (i : int) : int = (width * i) + j
 let init (b : bounds) : grid =
     let width : int = (b.right - b.left) + 1 in
     let height : int = (b.top - b.bottom) + 1 in
-    let start : int = select width (0 - b.left) (height - 1 + b.bottom) in
+    let start : position = {
+        x = 0 - b.left;
+        y = height - 1 + b.bottom;
+    } in
     let g : grid = {
         buffer = Array.make (width * height) '.';
         width = width;
         height = height;
         start = start;
     } in
-    g.buffer.(start) <- 'O';
+    g.buffer.(select width start.x start.y) <- 'O';
     g
 
 let print_moves (ms : move list) : unit =
     let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
-    let g : move -> unit = function
-        | Up x -> f "Up" x
-        | Down x -> f "Down" x
-        | Left x -> f "Left" x
-        | Right x -> f "Right" x in
-    List.iter g ms;
+    List.iter
+        begin
+            function
+                | Up x -> f "Up" x
+                | Down x -> f "Down" x
+                | Left x -> f "Left" x
+                | Right x -> f "Right" x
+        end
+        ms;
     flush stdout
 
 let print_bounds (b : bounds) : unit =
