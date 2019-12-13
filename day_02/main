@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
 
-ocp-indent -i src/part1.ml
-cat input.txt | ocaml src/part1.ml
+for x in part1 part2; do
+    ocp-indent -i src/$x.ml
+    echo $x
+    cat input.txt | ocaml src/$x.ml
+done
