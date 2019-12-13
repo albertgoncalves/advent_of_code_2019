@@ -56,7 +56,7 @@ let survey (mss : move list list) : bounds =
     List.iter (loop 0 0) mss;
     b
 
-let select (g : grid) (i : int) (j : int) : int = (g.width * i) + j
+let select (width : int) (i : int) (j : int) : int = (width * i) + j
 
 let init (b : bounds) : (grid * int) =
     let width : int = b.right - b.left in
@@ -66,6 +66,6 @@ let init (b : bounds) : (grid * int) =
         width = width;
         height = height;
     } in
-    let start : int = select g (g.height - 1) 0 in
+    let start : int = select g.width (g.height - 1) 0 in
     g.buffer.(start) <- 'O';
     (g, start)
