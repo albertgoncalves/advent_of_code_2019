@@ -20,6 +20,8 @@ let iterate (xs : int array) : int option =
     let rec loop (a : int) (b : int) =
         if (calculate (Array.copy xs) a b).(0) = 19690720 then
             Some ((100 * a) + b)
+        else if (a = 99) && (b = 99) then
+            None
         else if a < 99 then
             loop (a + 1) b
         else if b < 99 then
