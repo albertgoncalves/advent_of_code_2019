@@ -2,5 +2,6 @@
 
 for x in part1 part2; do
     ocp-indent -i src/$x.ml
-    printf "%s\t%d\n" $x $(ocaml src/$x.ml "input.txt")
+    echo $x
+    ocaml src/$x.ml "input.txt"
 done

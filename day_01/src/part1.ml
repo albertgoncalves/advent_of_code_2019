@@ -16,6 +16,7 @@ let () : unit =
         |> List.map int_of_string
         |> List.map (fun x -> (x / 3) - 2)
         |> List.fold_left (+) 0
-        |> Printf.fprintf stdout "%d\n%!"
+        |> Printf.fprintf stdout "\t%d\n%!"
     with _ ->
-        Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0)
+        Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0);
+        exit 1
