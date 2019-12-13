@@ -5,8 +5,10 @@
 !.shellhook
 !.ocp-indent
 !src/
+!data/
 !main
 !*.ml
 !*.txt
 !day_01/
 !day_02/
+!day_03/

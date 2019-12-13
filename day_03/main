@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+set -e
+
+for x in build bin; do
+    if [ ! -d "$x" ]; then
+        mkdir "$x"
+    fi
+done
+
+for x in terrain.ml io.ml part1.ml; do
+    ocp-indent -i src/$x
+    cp src/$x build/
+done
+
+(
+    cd build/
+    ocamlc terrain.ml io.ml part1.ml \
+        -w +1..66-4-48 \
+        -o ../bin/main
+)
+./bin/main data/test.txt
