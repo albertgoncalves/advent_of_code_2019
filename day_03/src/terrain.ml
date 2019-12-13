@@ -56,16 +56,17 @@ let survey (mss : move list list) : bounds =
     List.iter (loop 0 0) mss;
     b
 
-let select (width : int) (i : int) (j : int) : int = (width * i) + j
+let select (width : int) (j : int) (i : int) : int = (width * i) + j
 
 let init (b : bounds) : (grid * int) =
-    let width : int = b.right - b.left in
-    let height : int = b.top - b.bottom in
+    let width : int = (b.right - b.left) + 1 in
+    let height : int = (b.top - b.bottom) + 1 in
     let g : grid = {
         buffer = Array.make (width * height) '.';
         width = width;
         height = height;
     } in
-    let start : int = select g.width (g.height - 1) 0 in
+    let start : int =
+        select g.width (0 - b.left) (g.height - 1 + b.bottom) in
     g.buffer.(start) <- 'O';
     (g, start)
