@@ -70,3 +70,41 @@ let init (b : bounds) : (grid * int) =
         select g.width (0 - b.left) (g.height - 1 + b.bottom) in
     g.buffer.(start) <- 'O';
     (g, start)
+
+let print_moves (ms : move list) : unit =
+    let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
+    let g : move -> unit = function
+        | Up x -> f "Up" x
+        | Down x -> f "Down" x
+        | Left x -> f "Left" x
+        | Right x -> f "Right" x in
+    List.iter g ms;
+    flush stdout
+
+let print_bounds (x : bounds) : unit =
+    Printf.fprintf
+        stdout
+        "Top\t%d\nBottom\t%d\nLeft\t%d\nRight\t%d\n%!"
+        x.top
+        x.bottom
+        x.left
+        x.right
+
+let print_grid (g : grid) : unit =
+    let n : int = Array.length g.buffer in
+    let rec loop (i : int) : unit =
+        if (i < n) then
+            begin
+                let w : char array =
+                    Array.sub
+                        g.buffer
+                        i
+                        (min g.width (n - i)) in
+                let buf : Buffer.t = Buffer.create g.width in
+                Array.iter (Buffer.add_char buf) w;
+                Buffer.contents buf |> Printf.fprintf stdout "%s\n";
+                loop (i + g.width)
+            end
+        else
+            flush stdout in
+    loop 0
