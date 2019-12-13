@@ -14,8 +14,4 @@ let () : unit =
     List.iter
         (fun ms -> Terrain.print_moves ms; Printf.fprintf stdout "\n%!")
         mss;
-    let (g, _) : (Terrain.grid * int) =
-        mss
-        |> Terrain.survey
-        |> Terrain.init in
-    Terrain.print_grid g
+    mss |> Terrain.survey |> Terrain.init |> Terrain.print_grid

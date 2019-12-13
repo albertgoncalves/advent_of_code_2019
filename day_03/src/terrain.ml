@@ -15,12 +15,13 @@ type grid = {
     buffer : char array;
     width : int;
     height : int;
+    start : int;
 }
 
-let parse (x : string) : move option =
-    let n : int = String.length x in
-    let key : string = String.sub x 0 1 in
-    let value : int = String.sub x 1 (n - 1) |> int_of_string in
+let parse (s : string) : move option =
+    let key : string = String.sub s 0 1 in
+    let value : int =
+        String.sub s 1 ((String.length s) - 1) |> int_of_string in
     match key with
         | "U" -> Some (Up value)
         | "D" -> Some (Down value)
@@ -58,18 +59,18 @@ let survey (mss : move list list) : bounds =
 
 let select (width : int) (j : int) (i : int) : int = (width * i) + j
 
-let init (b : bounds) : (grid * int) =
+let init (b : bounds) : grid =
     let width : int = (b.right - b.left) + 1 in
     let height : int = (b.top - b.bottom) + 1 in
+    let start : int = select width (0 - b.left) (height - 1 + b.bottom) in
     let g : grid = {
         buffer = Array.make (width * height) '.';
         width = width;
         height = height;
+        start = start;
     } in
-    let start : int =
-        select g.width (0 - b.left) (g.height - 1 + b.bottom) in
     g.buffer.(start) <- 'O';
-    (g, start)
+    g
 
 let print_moves (ms : move list) : unit =
     let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
@@ -81,14 +82,14 @@ let print_moves (ms : move list) : unit =
     List.iter g ms;
     flush stdout
 
-let print_bounds (x : bounds) : unit =
+let print_bounds (b : bounds) : unit =
     Printf.fprintf
         stdout
         "Top\t%d\nBottom\t%d\nLeft\t%d\nRight\t%d\n%!"
-        x.top
-        x.bottom
-        x.left
-        x.right
+        b.top
+        b.bottom
+        b.left
+        b.right
 
 let print_grid (g : grid) : unit =
     let n : int = Array.length g.buffer in
