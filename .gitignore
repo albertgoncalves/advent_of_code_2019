@@ -1,0 +1,11 @@
+*
+!.gitignore
+!*.nix
+!shell
+!.shellhook
+!src/
+!main
+!*.ml
+!*.txt
+!day_01/
+!day_02/
