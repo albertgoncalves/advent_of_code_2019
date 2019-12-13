@@ -11,14 +11,15 @@ let read_file (filename : string) : string list =
     end;
     List.rev !lines
 
-let print_move : Terrain.move option -> unit =
-    let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n%!" in
-    function
-        | Some (Terrain.Up x) -> f "Up" x
-        | Some (Terrain.Down x) -> f "Down" x
-        | Some (Terrain.Left x) -> f "Left" x
-        | Some (Terrain.Right x) -> f "Right" x
-        | None -> ()
+let print_moves (ms : Terrain.move list) : unit =
+    let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
+    let g : Terrain.move -> unit = function
+        | Terrain.Up x -> f "Up" x
+        | Terrain.Down x -> f "Down" x
+        | Terrain.Left x -> f "Left" x
+        | Terrain.Right x -> f "Right" x in
+    List.iter g ms;
+    flush stdout
 
 let print_bounds (x : Terrain.bounds) : unit =
     Printf.fprintf
