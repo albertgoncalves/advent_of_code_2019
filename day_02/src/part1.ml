@@ -1,12 +1,3 @@
-let rec pretty_print : int list -> unit = function
-    | a :: b :: c :: d :: xs ->
-        Printf.fprintf stdout "\t%d\t%d\t%d\t%d\n" a b c d;
-        pretty_print xs
-    | a :: b :: c :: [] -> Printf.fprintf stdout "\t%d\t%d\t%d\n" a b c
-    | a :: b :: [] -> Printf.fprintf stdout "\t%d\t%d\n" a b
-    | a :: [] -> Printf.fprintf stdout "\t%d\n" a
-    | [] -> flush stdout
-
 let calculate (xs : int array) : int array =
     xs.(1) <- 12;
     xs.(2) <- 2;
@@ -24,6 +15,14 @@ let calculate (xs : int array) : int array =
             loop n (i + 4) in
     loop (Array.length xs) 0
 
+let rec pretty_print : int list -> unit = function
+    | a :: b :: c :: d :: xs ->
+        Printf.fprintf stdout "\t%d\t%d\t%d\t%d\n" a b c d;
+        pretty_print xs
+    | a :: b :: c :: [] -> Printf.fprintf stdout "\t%d\t%d\t%d\n" a b c
+    | a :: b :: [] -> Printf.fprintf stdout "\t%d\t%d\n" a b
+    | a :: [] -> Printf.fprintf stdout "\t%d\n" a
+    | [] -> flush stdout
 
 let () : unit =
     input_line stdin
