@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+ocp-indent -i src/part1.ml
+cat input.txt | ocaml src/part1.ml
