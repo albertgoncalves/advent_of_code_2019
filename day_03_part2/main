@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "$1" ]; then
+    exit
+fi
+
+cargo run --release "$1"
