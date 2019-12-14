@@ -133,6 +133,7 @@ fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
     best
 }
 
+/* Day 3: Crossed Wires (Part 2) */
 fn main() {
     if let [first, second] = &arg_to_moves()[..] {
         let memory: HashMap<Position, u32> = record_steps(first);

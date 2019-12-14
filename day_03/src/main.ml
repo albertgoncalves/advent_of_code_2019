@@ -5,6 +5,7 @@ let filter_option (xs : 'a option list) : 'a list =
         | [] -> ys in
     loop [] xs |> List.rev
 
+(* Day 3: Crossed Wires (Part 1) *)
 let () : unit =
     let mss : Terrain.move list list =
         Io.read_file Sys.argv.(1)

@@ -2,13 +2,17 @@
 
 set -e
 
+if [ -z $1 ]; then
+    exit
+fi
+
 for x in build bin; do
     if [ ! -d "$x" ]; then
         mkdir "$x"
     fi
 done
 
-for x in terrain.ml io.ml part1.ml; do
+for x in terrain.ml io.ml main.ml; do
     ocp-indent -i src/$x
     cp src/$x build/
 done
@@ -16,7 +20,7 @@ done
 (
     cd build/
     ocamlopt \
-        terrain.ml io.ml part1.ml \
+        terrain.ml io.ml main.ml \
         -O3 \
         -w +1..66 \
         -o ../bin/main
