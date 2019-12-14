@@ -81,9 +81,58 @@ let init (b : bounds) : (grid * position) =
 let distance (a : position) (b : position) : int =
     (b.x - a.x |> abs) + (b.y - a.y |> abs)
 
-let rec traverse (label : char) (g : grid) (start : position) (p : position)
-        (d : int option ref) : move -> unit =
-    let f () : unit =
+let rec traverse (f : grid -> position -> unit) (label : char) (g : grid)
+        (start : position) (p : position) : move -> unit =
+    function
+        | Up i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.y <- p.y - 1;
+                 f g p)
+            else
+                (p.y <- p.y - 1;
+                 f g p;
+                 traverse f label g start p (Up (i - 1)))
+        | Down i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.y <- p.y + 1;
+                 f g p)
+            else
+                (p.y <- p.y + 1;
+                 f g p;
+                 traverse f label g start p (Down (i - 1)))
+        | Left i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.x <- p.x - 1;
+                 f g p)
+            else
+                (p.x <- p.x - 1;
+                 f g p;
+                 traverse f label g start p (Left (i - 1)))
+        | Right i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.x <- p.x + 1;
+                 f g p)
+            else
+                (p.x <- p.x + 1;
+                 f g p;
+                 traverse f label g start p (Right (i - 1)))
+
+let iterate (label : char) (g : grid) (start : position) (ms : move list)
+    : int option =
+    let p = {
+        x = start.x;
+        y = start.y;
+    } in
+    let d : int option ref = ref None in
+    let f (g : grid) (p : position) : unit =
         let ij : int = select g.width p.x p.y in
         if (g.buffer.(ij) = '.') || (g.buffer.(ij) = label) then
             g.buffer.(ij) <- label
@@ -96,56 +145,7 @@ let rec traverse (label : char) (g : grid) (start : position) (p : position)
                         d := Some candidate
                     else
                         () in
-    function
-        | Up i ->
-            if i <= 0 then
-                ()
-            else if i = 1 then
-                (p.y <- p.y - 1;
-                 f ())
-            else
-                (p.y <- p.y - 1;
-                 f ();
-                 traverse label g start p d (Up (i - 1)))
-        | Down i ->
-            if i <= 0 then
-                ()
-            else if i = 1 then
-                (p.y <- p.y + 1;
-                 f ())
-            else
-                (p.y <- p.y + 1;
-                 f ();
-                 traverse label g start p d (Down (i - 1)))
-        | Left i ->
-            if i <= 0 then
-                ()
-            else if i = 1 then
-                (p.x <- p.x - 1;
-                 f ())
-            else
-                (p.x <- p.x - 1;
-                 f ();
-                 traverse label g start p d (Left (i - 1)))
-        | Right i ->
-            if i <= 0 then
-                ()
-            else if i = 1 then
-                (p.x <- p.x + 1;
-                 f ())
-            else
-                (p.x <- p.x + 1;
-                 f ();
-                 traverse label g start p d (Right (i - 1)))
-
-let iterate (label : char) (g : grid) (start : position) (ms : move list)
-    : int option =
-    let p = {
-        x = start.x;
-        y = start.y;
-    } in
-    let d : int option ref = ref None in
-    List.iter (traverse label g start p d) ms;
+    List.iter (traverse f label g start p) ms;
     !d
 
 let print_moves (ms : move list) : unit =

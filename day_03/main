@@ -15,8 +15,11 @@ done
 
 (
     cd build/
-    ocamlc terrain.ml io.ml part1.ml \
-        -w +1..66-4-48 \
+    ocamlopt \
+        terrain.ml io.ml part1.ml \
+        -O3 \
+        -w +1..66 \
         -o ../bin/main
 )
+
 ./bin/main $1
