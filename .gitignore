@@ -9,9 +9,11 @@
 !main
 !*.ml
 !*.rs
+!*.toml
 !*.txt
 !day_01/
 !day_02/
 !day_03_part1/
 !day_03_part2/
 !day_04/
+!day_05/
