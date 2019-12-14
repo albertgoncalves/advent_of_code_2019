@@ -2,5 +2,5 @@
 
 for x in part1 part2; do
     ocp-indent -i src/$x.ml
-    cat input.txt | ocaml src/$x.ml
+    ocaml src/$x.ml < input.txt
 done

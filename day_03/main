@@ -2,7 +2,7 @@
 
 set -e
 
-if [ -z $1 ]; then
+if [ -z "$1" ]; then
     exit
 fi
 
@@ -26,4 +26,4 @@ done
         -o ../bin/main
 )
 
-./bin/main $1
+./bin/main "$1"
