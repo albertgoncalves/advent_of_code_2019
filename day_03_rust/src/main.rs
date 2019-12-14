@@ -1,19 +1,27 @@
+use std::collections::HashMap;
 use std::env;
 use std::fs::File;
 use std::io::Read;
+use std::u32;
 
 #[derive(Debug)]
 enum Move {
-    Up(usize),
-    Down(usize),
-    Left(usize),
-    Right(usize),
+    Up(u32),
+    Down(u32),
+    Left(u32),
+    Right(u32),
+}
+
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+struct Position {
+    x: i16,
+    y: i16,
 }
 
 fn parse(s: &str) -> Move {
     macro_rules! tail_to_int {
         () => {
-            s[1..].parse::<usize>().unwrap()
+            s[1..].parse::<u32>().unwrap()
         };
     };
     match s.chars().next().unwrap() {
@@ -38,9 +46,96 @@ fn arg_to_moves() -> Vec<Vec<Move>> {
         .collect::<Vec<Vec<Move>>>()
 }
 
+fn record_steps(moves: &[Move]) -> HashMap<Position, u32> {
+    let mut memory: HashMap<Position, u32> = HashMap::new();
+    let mut position: Position = Position { x: 0, y: 0 };
+    let mut step: u32 = 0;
+    macro_rules! advance {
+        () => {
+            step += 1;
+            memory.entry(position.clone()).or_insert(step);
+        };
+    }
+    for m in moves {
+        match m {
+            Move::Up(n) => {
+                for _ in 0..*n {
+                    position.y += 1;
+                    advance!();
+                }
+            }
+            Move::Down(n) => {
+                for _ in 0..*n {
+                    position.y -= 1;
+                    advance!();
+                }
+            }
+            Move::Left(n) => {
+                for _ in 0..*n {
+                    position.x -= 1;
+                    advance!();
+                }
+            }
+            Move::Right(n) => {
+                for _ in 0..*n {
+                    position.x += 1;
+                    advance!();
+                }
+            }
+        }
+    }
+    memory
+}
+
+fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
+    let mut best: u32 = u32::max_value();
+    let mut position: Position = Position { x: 0, y: 0 };
+    let mut step_second: u32 = 0;
+    macro_rules! check_intersect {
+        () => {
+            step_second += 1;
+            if let Some(step_first) = memory.get(&position) {
+                let candidate: u32 = step_first + step_second;
+                if candidate < best {
+                    best = candidate;
+                }
+            }
+        };
+    };
+    for m in moves {
+        match m {
+            Move::Up(n) => {
+                for _ in 0..*n {
+                    position.y += 1;
+                    check_intersect!();
+                }
+            }
+            Move::Down(n) => {
+                for _ in 0..*n {
+                    position.y -= 1;
+                    check_intersect!();
+                }
+            }
+            Move::Left(n) => {
+                for _ in 0..*n {
+                    position.x -= 1;
+                    check_intersect!();
+                }
+            }
+            Move::Right(n) => {
+                for _ in 0..*n {
+                    position.x += 1;
+                    check_intersect!();
+                }
+            }
+        }
+    }
+    best
+}
+
 fn main() {
     if let [first, second] = &arg_to_moves()[..] {
-        println!("{:?}", first);
-        println!("{:?}", second);
+        let memory: HashMap<Position, u32> = record_steps(first);
+        println!("{:#?}", find_intersections(&memory, second));
     }
 }
