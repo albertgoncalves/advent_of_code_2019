@@ -11,7 +11,16 @@ let () : unit =
         |> List.map (String.split_on_char ',')
         |> List.map (List.map Terrain.parse)
         |> List.map filter_option in
-    List.iter
-        (fun ms -> Terrain.print_moves ms; Printf.fprintf stdout "\n%!")
-        mss;
-    mss |> Terrain.survey |> Terrain.init |> Terrain.print_grid
+    let b : Terrain.bounds = mss |> Terrain.survey in
+    Terrain.print_bounds b;
+    let (g, start) : (Terrain.grid * Terrain.position) = b |> Terrain.init in
+    match mss with
+        | [ms1; ms2] ->
+            begin
+                let _ : int option = Terrain.iterate '1' g start ms1 in
+                match Terrain.iterate '2' g start ms2 with
+                    | None -> ()
+                    | Some d ->
+                        Printf.fprintf stdout "%d\n%!" d
+            end
+        | _ -> ()

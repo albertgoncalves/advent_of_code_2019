@@ -12,15 +12,14 @@ type bounds = {
 }
 
 type position = {
-    x : int;
-    y : int;
+    mutable x : int;
+    mutable y : int;
 }
 
 type grid = {
     buffer : char array;
     width : int;
     height : int;
-    start : position;
 }
 
 let parse (s : string) : move option =
@@ -64,7 +63,7 @@ let survey (mss : move list list) : bounds =
 
 let select (width : int) (j : int) (i : int) : int = (width * i) + j
 
-let init (b : bounds) : grid =
+let init (b : bounds) : (grid * position) =
     let width : int = (b.right - b.left) + 1 in
     let height : int = (b.top - b.bottom) + 1 in
     let start : position = {
@@ -75,10 +74,79 @@ let init (b : bounds) : grid =
         buffer = Array.make (width * height) '.';
         width = width;
         height = height;
-        start = start;
     } in
     g.buffer.(select width start.x start.y) <- 'O';
-    g
+    (g, start)
+
+let distance (a : position) (b : position) : int =
+    (b.x - a.x |> abs) + (b.y - a.y |> abs)
+
+let rec traverse (label : char) (g : grid) (start : position) (p : position)
+        (d : int option ref) : move -> unit =
+    let f () : unit =
+        let ij : int = select g.width p.x p.y in
+        if (g.buffer.(ij) = '.') || (g.buffer.(ij) = label) then
+            g.buffer.(ij) <- label
+        else
+            let candidate : int = distance start p in
+            match !d with
+                | None -> d := Some candidate
+                | Some q ->
+                    if candidate < q then
+                        d := Some candidate
+                    else
+                        () in
+    function
+        | Up i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.y <- p.y - 1;
+                 f ())
+            else
+                (p.y <- p.y - 1;
+                 f ();
+                 traverse label g start p d (Up (i - 1)))
+        | Down i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.y <- p.y + 1;
+                 f ())
+            else
+                (p.y <- p.y + 1;
+                 f ();
+                 traverse label g start p d (Down (i - 1)))
+        | Left i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.x <- p.x - 1;
+                 f ())
+            else
+                (p.x <- p.x - 1;
+                 f ();
+                 traverse label g start p d (Left (i - 1)))
+        | Right i ->
+            if i <= 0 then
+                ()
+            else if i = 1 then
+                (p.x <- p.x + 1;
+                 f ())
+            else
+                (p.x <- p.x + 1;
+                 f ();
+                 traverse label g start p d (Right (i - 1)))
+
+let iterate (label : char) (g : grid) (start : position) (ms : move list)
+    : int option =
+    let p = {
+        x = start.x;
+        y = start.y;
+    } in
+    let d : int option ref = ref None in
+    List.iter (traverse label g start p d) ms;
+    !d
 
 let print_moves (ms : move list) : unit =
     let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in

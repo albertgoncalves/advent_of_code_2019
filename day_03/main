@@ -19,4 +19,4 @@ done
         -w +1..66-4-48 \
         -o ../bin/main
 )
-./bin/main data/test.txt
+./bin/main $1
