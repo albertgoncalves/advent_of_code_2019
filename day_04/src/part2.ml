@@ -46,4 +46,4 @@ let () : unit =
     assert ((int_to_digits 123444 |> validate) = false);
     assert ((int_to_digits 111122 |> validate) = true);
     let (lower, upper) : (int * int) = stdin_to_pair() in
-    Printf.fprintf stdout "%d\n%d\n%d\n%!" lower upper (iterate lower upper 0);
+    Printf.fprintf stdout "%d\n%d\n%d\n%!" lower upper (iterate lower upper 0)
