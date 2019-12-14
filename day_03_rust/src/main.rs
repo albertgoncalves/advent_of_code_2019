@@ -136,6 +136,6 @@ fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
 fn main() {
     if let [first, second] = &arg_to_moves()[..] {
         let memory: HashMap<Position, u32> = record_steps(first);
-        println!("{:#?}", find_intersections(&memory, second));
+        println!("{:?}", find_intersections(&memory, second));
     }
 }
