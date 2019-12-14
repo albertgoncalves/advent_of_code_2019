@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+set -e
+
+cargo clippy -- -D warnings -W clippy::pedantic
+cargo run < input.txt
