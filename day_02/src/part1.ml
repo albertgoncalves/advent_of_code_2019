@@ -17,11 +17,11 @@ let calculate (xs : int array) : int array =
 
 let rec pretty_print : int list -> unit = function
     | a :: b :: c :: d :: xs ->
-        Printf.fprintf stdout "\t%d\t%d\t%d\t%d\n" a b c d;
+        Printf.fprintf stdout "%d\t%d\t%d\t%d\n" a b c d;
         pretty_print xs
-    | a :: b :: c :: [] -> Printf.fprintf stdout "\t%d\t%d\t%d\n" a b c
-    | a :: b :: [] -> Printf.fprintf stdout "\t%d\t%d\n" a b
-    | a :: [] -> Printf.fprintf stdout "\t%d\n" a
+    | a :: b :: c :: [] -> Printf.fprintf stdout "%d\t%d\t%d\n" a b c
+    | a :: b :: [] -> Printf.fprintf stdout "%d\t%d\n" a b
+    | a :: [] -> Printf.fprintf stdout "%d\n" a
     | [] -> flush stdout
 
 let () : unit =

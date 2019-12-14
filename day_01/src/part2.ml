@@ -27,7 +27,7 @@ let () : unit =
         |> List.map int_of_string
         |> List.map iterate
         |> List.fold_left (+) 0
-        |> Printf.fprintf stdout "\t%d\n%!"
+        |> Printf.fprintf stdout "%d\n%!"
     with _ ->
         Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0);
         exit 1

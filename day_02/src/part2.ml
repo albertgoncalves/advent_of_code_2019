@@ -31,7 +31,7 @@ let iterate (xs : int array) : int option =
     loop 0 0
 
 let maybe_print : int option -> unit = function
-    | Some x -> Printf.fprintf stdout "\t%d\n%!" x
+    | Some x -> Printf.fprintf stdout "%d\n%!" x
     | None -> ()
 
 let () : unit =
