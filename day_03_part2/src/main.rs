@@ -90,7 +90,7 @@ fn record_steps(moves: &[Move]) -> HashMap<Position, u32> {
 }
 
 fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
-    let mut best: u32 = u32::max_value();
+    let mut result: u32 = u32::max_value();
     let mut position: Position = Position { x: 0, y: 0 };
     let mut step_second: u32 = 0;
     macro_rules! check_intersect {
@@ -98,8 +98,8 @@ fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
             step_second += 1;
             if let Some(step_first) = memory.get(&position) {
                 let candidate: u32 = step_first + step_second;
-                if candidate < best {
-                    best = candidate;
+                if candidate < result {
+                    result = candidate;
                 }
             }
         };
@@ -132,7 +132,7 @@ fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
             }
         }
     }
-    best
+    result
 }
 
 fn main() {
