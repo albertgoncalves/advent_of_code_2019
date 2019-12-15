@@ -1,3 +1,5 @@
+(* Day 1: The Tyranny of the Rocket Equation (Part 1) *)
+
 let read_file (filename : string) : string list =
     let lines : string list ref = ref [] in
     let chan : in_channel = open_in filename in

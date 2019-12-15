@@ -1,3 +1,5 @@
+/* Day 5: Sunny with a Chance of Asteroids (Part 1) */
+
 use std::io::{self, Read};
 
 fn stdin_to_string() -> String {
@@ -28,7 +30,6 @@ fn index(xs: &[i32], i: usize, n: usize) -> usize {
     }
 }
 
-/* Day 5: Sunny with a Chance of Asteroids (Part 1) */
 fn main() {
     let mut xs: Vec<i32> = string_to_instructions(&stdin_to_string());
     let n: usize = xs.len();

@@ -1,3 +1,5 @@
+(* Day 2: 1202 Program Alarm (Part 1) *)
+
 let calculate (xs : int array) : int array =
     xs.(1) <- 12;
     xs.(2) <- 2;

@@ -1,3 +1,5 @@
+(* Day 3: Crossed Wires (Part 1) *)
+
 let filter_option (xs : 'a option list) : 'a list =
     let rec loop (ys : 'a list) : 'a option list -> 'a list = function
         | (Some x) :: xs -> loop (x :: ys) xs
@@ -5,7 +7,6 @@ let filter_option (xs : 'a option list) : 'a list =
         | [] -> ys in
     loop [] xs |> List.rev
 
-(* Day 3: Crossed Wires (Part 1) *)
 let () : unit =
     let mss : Terrain.move list list =
         Io.read_file Sys.argv.(1)
