@@ -43,6 +43,6 @@ fn main() {
         "{} {} {}",
         result,
         cost,
-        1.0 - (cost as f32) / (result as f32)
+        1.0 - (cost as f32) / (result as f32),
     );
 }
