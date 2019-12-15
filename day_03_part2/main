@@ -6,4 +6,5 @@ if [ -z "$1" ]; then
     exit
 fi
 
+cargo clippy -- -D warnings -W clippy::pedantic
 cargo run --release "$1"
