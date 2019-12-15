@@ -33,9 +33,9 @@ fn index(xs: &[i32], i: usize, n: usize) -> usize {
 
 #[allow(clippy::cast_sign_loss)]
 fn calculate(mut xs: Vec<i32>, first: i32, second: i32) -> Option<i32> {
-    let mut counter: u8 = 0;
     let n: usize = xs.len();
     let mut result: Option<i32> = None;
+    let mut counter: u8 = 0;
     let mut i: usize = 0;
     while (i <= n) && (xs[i] != 99) {
         match xs[i] % 10 {
@@ -62,9 +62,8 @@ fn calculate(mut xs: Vec<i32>, first: i32, second: i32) -> Option<i32> {
                     xs[j] = second;
                     counter += 1;
                 }
-                if i != j {
-                    i += 2;
-                }
+                /* Always move instruction pointer. */
+                i += 2;
             }
             4 => {
                 let j: usize = index(&xs, i, 1);
