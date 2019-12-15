@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ -z "$1" ]; then
+    exit 1
+fi
+
+cargo clippy -- -D warnings -W clippy::pedantic
+cargo run < "$1"
