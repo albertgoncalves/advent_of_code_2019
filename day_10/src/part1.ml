@@ -35,9 +35,7 @@ let transform (width : int) (s : string) : position list =
                 else
                     (0, i + 1) in
             loop ps j i cs in
-    List.init (String.length s) (String.get s)
-    |> loop [] 0 0
-    |> List.rev
+    List.init (String.length s) (String.get s) |> loop [] 0 0 |> List.rev
 
 type relation = {
     slope : float;
