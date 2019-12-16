@@ -58,9 +58,10 @@ let iterate (ps : position array) : (position * int) =
     let n : int = (Array.length ps) - 1 in
     let calculate (i : int) : int =
         let table : (relation, bool) Hashtbl.t = Hashtbl.create n in
+        let p : position = ps.(i) in
         for j = 0 to n do
             if i <> j then
-                let r : relation = relate ps.(i) ps.(j) in
+                let r : relation = relate p ps.(j) in
                 match Hashtbl.find_opt table r with
                     | None -> Hashtbl.add table r true
                     | _ -> ()
@@ -82,11 +83,9 @@ let iterate (ps : position array) : (position * int) =
 let () : unit =
     let lines : string list = read_file Sys.argv.(1) in
     List.iter (Printf.fprintf stdout "%s\n") lines;
-    let width : int = List.hd lines |> String.length in
-    let ps : position array =
-        String.concat "" lines
-        |> transform width
-        |> Array.of_list in
-    iterate ps
+    String.concat "" lines
+    |> transform (List.hd lines |> String.length)
+    |> Array.of_list
+    |> iterate
     |> (fun (p, v) ->
         Printf.fprintf stdout "{x: %d, y: %d}\n%d\n%!" p.x p.y v)
