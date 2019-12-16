@@ -19,11 +19,8 @@ let () : unit =
     g.Terrain.buffer |> Array.length |> Printf.fprintf stdout "Size\t%d\n%!";
     match mss with
         | [ms1; ms2] ->
-            begin
-                let _ : int option = Terrain.iterate '1' g start ms1 in
-                match Terrain.iterate '2' g start ms2 with
-                    | None -> ()
-                    | Some d ->
-                        Printf.fprintf stdout "\nResult\t%d\n%!" d
-            end
+            (let _ : int option = Terrain.iterate '1' g start ms1 in
+             match Terrain.iterate '2' g start ms2 with
+                 | None -> ()
+                 | Some d -> Printf.fprintf stdout "\nResult\t%d\n%!" d)
         | _ -> ()

@@ -151,13 +151,11 @@ let iterate (label : char) (g : grid) (start : position) (ms : move list)
 let print_moves (ms : move list) : unit =
     let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
     List.iter
-        begin
-            function
-                | Up x -> f "Up" x
-                | Down x -> f "Down" x
-                | Left x -> f "Left" x
-                | Right x -> f "Right" x
-        end
+        (function
+            | Up x -> f "Up" x
+            | Down x -> f "Down" x
+            | Left x -> f "Left" x
+            | Right x -> f "Right" x)
         ms;
     flush stdout
 
@@ -174,17 +172,15 @@ let print_grid (g : grid) : unit =
     let n : int = Array.length g.buffer in
     let rec loop (i : int) : unit =
         if (i < n) then
-            begin
-                let w : char array =
-                    Array.sub
-                        g.buffer
-                        i
-                        (min g.width (n - i)) in
-                let buf : Buffer.t = Buffer.create g.width in
-                Array.iter (Buffer.add_char buf) w;
-                Buffer.contents buf |> Printf.fprintf stdout "%s\n";
-                loop (i + g.width)
-            end
+            (let w : char array =
+                 Array.sub
+                     g.buffer
+                     i
+                     (min g.width (n - i)) in
+             let buf : Buffer.t = Buffer.create g.width in
+             Array.iter (Buffer.add_char buf) w;
+             Buffer.contents buf |> Printf.fprintf stdout "%s\n";
+             loop (i + g.width))
         else
             flush stdout in
     loop 0
