@@ -1,7 +1,5 @@
 (* Day 4: Secure Container (Part 1) *)
 
-(*  $ cat input.txt
-    372037-905157 *)
 let stdin_to_pair ((): unit) : (int * int) =
     let xs : int option list =
         input_line stdin
@@ -27,7 +25,7 @@ let validate (xs : int list) : bool =
             else
                 loop flag (b :: xs)
         (* NOTE: Terminate returning iterated flag; will return `true` if there
-           is at least one duplicate value. *)
+                 is at least one duplicate value. *)
         | _ -> flag in
     loop false xs
 

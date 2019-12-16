@@ -11,10 +11,10 @@ let read_file (filename : string) : string list =
         close_in chan);
     List.rev !lines
 
-(*  NOTE: x == j == column
-          y == i == row *)
 
 type position = {
+    (* NOTE: j|column -> x
+             i|row    -> y *)
     x : int;
     y : int;
 }
@@ -45,12 +45,9 @@ type relation = {
     right : bool;
 }
 
-(*  NOTE: For a 10x10 grid:
-        (0, 0) <- top left
-        (9, 9) <- bottom right
-    Never forget this! *)
-
 let relate (a : position) (b : position) : relation =
+    (* NOTE: (0, 0) <- top left
+             (9, 9) <- bottom right *)
     let x : int = a.x - b.x in
     let y : int = a.y - b.y in
     {

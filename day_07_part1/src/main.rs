@@ -62,7 +62,7 @@ fn calculate(mut xs: Vec<i32>, first: i32, second: i32) -> Option<i32> {
                     xs[j] = second;
                     counter += 1;
                 }
-                /* Always move instruction pointer. */
+                /* NOTE: Always move instruction pointer. */
                 i += 2;
             }
             4 => {

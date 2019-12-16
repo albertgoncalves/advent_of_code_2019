@@ -40,10 +40,10 @@ struct Memory {
 fn init(xs: &[i32], i: usize, value: i32) -> Memory {
     let mut ys: Memory = Memory {
         buffer: xs.to_owned(),
-        i: 2, /* Start *after* the first input instruction. */
+        i: 2, /* NOTE: Start *after* the first input instruction. */
         result: None,
     };
-    ys.buffer[i] = value; /* Write first input instruction! */
+    ys.buffer[i] = value; /* NOTE: Write first input instruction! */
     ys
 }
 
@@ -73,7 +73,7 @@ fn calculate(memory: &mut Memory, value: i32) {
             3 => {
                 let j: usize = index(&memory.buffer, i, 1);
                 memory.buffer[j] = value;
-                /* Always move instruction pointer. */
+                /* NOTE: Always move instruction pointer. */
                 i += 2;
             }
             4 => {
