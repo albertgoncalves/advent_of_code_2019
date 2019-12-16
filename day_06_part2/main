@@ -2,5 +2,8 @@
 
 set -e
 
+if [ "$2" = "lint" ]; then
+    rustfmt -v src/main.rs
+fi
 cargo clippy -- -D warnings -W clippy::pedantic
 cargo run "$1"

@@ -24,4 +24,4 @@ done
         -o ../bin/main
 )
 
-./bin/main "$1" "$2"
+./bin/main "$1"
