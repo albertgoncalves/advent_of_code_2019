@@ -3,16 +3,16 @@
 let rec print_array (m : int ) (n : int) (i : int) (xs : int array) : unit =
     if i < m then
         (Array.sub xs i n
-        |> Array.to_list
-        |> List.map
-            (function
-                | 0 -> "_"
-                | 1 -> "#"
-                | 2 -> " "
-                | _ -> exit 1)
-        |> String.concat ""
-        |> Printf.fprintf stdout "%s\n";
-        print_array m n (i + n) xs)
+         |> Array.to_list
+         |> List.map
+             (function
+                 | 0 -> "_"
+                 | 1 -> "#"
+                 | 2 -> " "
+                 | _ -> exit 1)
+         |> String.concat ""
+         |> Printf.fprintf stdout "%s\n";
+         print_array m n (i + n) xs)
     else
         ()
 
@@ -33,8 +33,7 @@ let () : unit =
         |> List.map int_of_string
         |> (function
             | [a; b] -> (a, b)
-            | _ -> exit 1)
-        in
+            | _ -> exit 1) in
     let n : int = width * height in
     let s : string = input_line chan in
     close_in chan;

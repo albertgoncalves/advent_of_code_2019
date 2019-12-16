@@ -3,11 +3,11 @@
 let rec print_array (xs : int array) (m : int ) (n : int) (i : int) : unit =
     if i < m then
         (Array.sub xs i n
-        |> Array.to_list
-        |> List.map string_of_int
-        |> String.concat ""
-        |> Printf.fprintf stdout "%s\n";
-        print_array xs m n (i + n))
+         |> Array.to_list
+         |> List.map string_of_int
+         |> String.concat ""
+         |> Printf.fprintf stdout "%s\n";
+         print_array xs m n (i + n))
     else
         ()
 
@@ -43,8 +43,7 @@ let () : unit =
         |> List.map int_of_string
         |> (function
             | [a; b] -> a * b
-            | _ -> exit 1)
-        in
+            | _ -> exit 1) in
     let s : string = input_line chan in
     close_in chan;
     let m : int = String.length s in

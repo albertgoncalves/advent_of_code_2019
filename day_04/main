@@ -1,17 +1,10 @@
 #!/usr/bin/env bash
 
-target=$1
-flag=$2
+set -e
 
-f () {
-    if [ "$flag" == "lint" ]; then
-        ocp-indent -i "src/$1.ml"
+for x in part1 part2; do
+    if [ "$1" = "lint" ]; then
+        ocp-indent -i src/$x.ml
     fi
-    ocaml -w +1..66 "src/$1.ml" < input.txt
-}
-
-if [ "$target" == "1" ]; then
-    f part1
-elif [ "$target" == "2" ]; then
-    f part2
-fi
+    ocaml -w +1..66 src/$x.ml < input.txt
+done

@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+set -e
+
 for x in part1 part2; do
-    ocp-indent -i src/$x.ml
-    ocaml src/$x.ml "input.txt"
+    if [ "$1" = "lint" ]; then
+        ocp-indent -i src/$x.ml
+    fi
+    ocaml -w +1..66 src/$x.ml input.txt
 done

@@ -2,10 +2,6 @@
 
 set -e
 
-if [ -z "$1" ]; then
-    exit
-fi
-
 for x in build bin; do
     if [ ! -d "$x" ]; then
         mkdir "$x"
@@ -13,7 +9,9 @@ for x in build bin; do
 done
 
 for x in terrain.ml io.ml main.ml; do
-    ocp-indent -i src/$x
+    if [ "$2" = "lint" ]; then
+        ocp-indent -i src/$x
+    fi
     cp src/$x build/
 done
 
@@ -26,4 +24,4 @@ done
         -o ../bin/main
 )
 
-./bin/main "$1"
+./bin/main "$1" "$2"
