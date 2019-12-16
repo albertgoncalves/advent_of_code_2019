@@ -11,7 +11,6 @@ let read_file (filename : string) : string list =
         close_in chan);
     List.rev !lines
 
-
 type position = {
     (* NOTE: j|column -> x
              i|row    -> y *)
