@@ -24,9 +24,10 @@ let iterate (x : int) : int =
 let () : unit =
     try
         read_file Sys.argv.(1)
-        |> List.map int_of_string
-        |> List.map iterate
-        |> List.fold_left (+) 0
+        |> List.to_seq
+        |> Seq.map int_of_string
+        |> Seq.map iterate
+        |> Seq.fold_left (+) 0
         |> Printf.fprintf stdout "%d\n%!"
     with _ ->
         Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0);

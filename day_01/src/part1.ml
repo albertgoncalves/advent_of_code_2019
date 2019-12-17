@@ -14,9 +14,10 @@ let read_file (filename : string) : string list =
 let () : unit =
     try
         read_file Sys.argv.(1)
-        |> List.map int_of_string
-        |> List.map (fun x -> (x / 3) - 2)
-        |> List.fold_left (+) 0
+        |> List.to_seq
+        |> Seq.map int_of_string
+        |> Seq.map (fun x -> (x / 3) - 2)
+        |> Seq.fold_left (+) 0
         |> Printf.fprintf stdout "%d\n%!"
     with _ ->
         Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0);
