@@ -2,23 +2,25 @@
 
 set -e
 
+srcs=(terrain.ml io.ml main.ml)
+
 for x in build bin; do
     if [ ! -d "$x" ]; then
         mkdir "$x"
     fi
 done
 
-for x in terrain.ml io.ml main.ml; do
+for x in "${srcs[@]}"; do
     if [ "$2" = "lint" ]; then
-        ocp-indent -i src/$x
+        ocp-indent -i src/"$x"
     fi
-    cp src/$x build/
+    cp src/"$x" build/
 done
 
 (
     cd build/
     ocamlopt \
-        terrain.ml io.ml main.ml \
+        "${srcs[@]}" \
         -O3 \
         -w +1..66 \
         -o ../bin/main

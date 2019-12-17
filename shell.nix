@@ -1,7 +1,13 @@
 with import <nixpkgs> {};
 let
+    ocamlPackages =
+        ocaml-ng.ocamlPackages_4_07.overrideScope' (self: super: {
+            ocaml = super.ocaml.override { flambdaSupport = false; };
+        });
+in
+let
     shared = [
-        (with ocaml-ng.ocamlPackages_4_07; [
+        (with ocamlPackages; [
             ocaml
             ocp-indent
         ])
