@@ -48,6 +48,39 @@ fn arg_to_moves() -> Vec<Vec<Move>> {
         .collect::<Vec<Vec<Move>>>()
 }
 
+macro_rules! iterate {
+    ($moves:expr, $position:expr, $f:tt $(,)?) => {
+        for m in $moves {
+            match m {
+                Move::Up(n) => {
+                    for _ in 0..*n {
+                        $position.y += 1;
+                        $f!();
+                    }
+                }
+                Move::Down(n) => {
+                    for _ in 0..*n {
+                        $position.y -= 1;
+                        $f!();
+                    }
+                }
+                Move::Left(n) => {
+                    for _ in 0..*n {
+                        $position.x -= 1;
+                        $f!();
+                    }
+                }
+                Move::Right(n) => {
+                    for _ in 0..*n {
+                        $position.x += 1;
+                        $f!();
+                    }
+                }
+            }
+        }
+    };
+}
+
 fn record_steps(moves: &[Move]) -> HashMap<Position, u32> {
     let mut memory: HashMap<Position, u32> = HashMap::new();
     let mut position: Position = Position { x: 0, y: 0 };
@@ -58,34 +91,7 @@ fn record_steps(moves: &[Move]) -> HashMap<Position, u32> {
             memory.entry(position.clone()).or_insert(step);
         };
     }
-    for m in moves {
-        match m {
-            Move::Up(n) => {
-                for _ in 0..*n {
-                    position.y += 1;
-                    advance!();
-                }
-            }
-            Move::Down(n) => {
-                for _ in 0..*n {
-                    position.y -= 1;
-                    advance!();
-                }
-            }
-            Move::Left(n) => {
-                for _ in 0..*n {
-                    position.x -= 1;
-                    advance!();
-                }
-            }
-            Move::Right(n) => {
-                for _ in 0..*n {
-                    position.x += 1;
-                    advance!();
-                }
-            }
-        }
-    }
+    iterate!(moves, position, advance);
     memory
 }
 
@@ -104,34 +110,7 @@ fn find_intersections(memory: &HashMap<Position, u32>, moves: &[Move]) -> u32 {
             }
         };
     };
-    for m in moves {
-        match m {
-            Move::Up(n) => {
-                for _ in 0..*n {
-                    position.y += 1;
-                    check_intersect!();
-                }
-            }
-            Move::Down(n) => {
-                for _ in 0..*n {
-                    position.y -= 1;
-                    check_intersect!();
-                }
-            }
-            Move::Left(n) => {
-                for _ in 0..*n {
-                    position.x -= 1;
-                    check_intersect!();
-                }
-            }
-            Move::Right(n) => {
-                for _ in 0..*n {
-                    position.x += 1;
-                    check_intersect!();
-                }
-            }
-        }
-    }
+    iterate!(moves, position, check_intersect);
     result
 }
 
