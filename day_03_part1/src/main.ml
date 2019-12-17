@@ -20,11 +20,12 @@ let () : unit =
     let b : Terrain.bounds = mss |> Terrain.survey in
     Terrain.print_bounds b;
     let (g, start) : (Terrain.grid * Terrain.position) = b |> Terrain.init in
-    g.Terrain.buffer |> Array.length |> Printf.fprintf stdout "Size\t%d\n%!";
-    match mss with
+    g.Terrain.buffer |> Array.length |> Printf.fprintf stdout "Size\t%d\n";
+    (match mss with
         | [ms1; ms2] ->
             (let _ : int option = Terrain.iterate '1' g start ms1 in
              match Terrain.iterate '2' g start ms2 with
                  | None -> ()
-                 | Some d -> Printf.fprintf stdout "\nResult\t%d\n%!" d)
-        | _ -> ()
+                 | Some d -> Printf.fprintf stdout "\nResult\t%d\n" d)
+        | _ -> ());
+    flush stdout

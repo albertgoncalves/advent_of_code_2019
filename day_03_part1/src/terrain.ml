@@ -156,13 +156,12 @@ let print_moves (ms : move list) : unit =
             | Down x -> f "Down" x
             | Left x -> f "Left" x
             | Right x -> f "Right" x)
-        ms;
-    flush stdout
+        ms
 
 let print_bounds (b : bounds) : unit =
     Printf.fprintf
         stdout
-        "Top\t%d\nBottom\t%d\nLeft\t%d\nRight\t%d\n%!"
+        "Top\t%d\nBottom\t%d\nLeft\t%d\nRight\t%d\n"
         b.top
         b.bottom
         b.left
@@ -182,5 +181,5 @@ let print_grid (g : grid) : unit =
              Buffer.contents buf |> Printf.fprintf stdout "%s\n";
              loop (i + g.width))
         else
-            flush stdout in
+            () in
     loop 0
