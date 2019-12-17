@@ -1,9 +1,10 @@
 with import <nixpkgs> {};
 let
-    ocamlPackages =
-        ocaml-ng.ocamlPackages_4_07.overrideScope' (self: super: {
-            ocaml = super.ocaml.override { flambdaSupport = false; };
-        });
+    ocamlPackages = ocaml-ng.ocamlPackages_4_07.overrideScope' (self: super: {
+        ocaml = super.ocaml.override {
+            flambdaSupport = false;
+        };
+    });
 in
 let
     shared = [
