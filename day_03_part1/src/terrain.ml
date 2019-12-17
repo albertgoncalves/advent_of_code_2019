@@ -17,7 +17,7 @@ type position = {
 }
 
 type grid = {
-    buffer : char array;
+    buffer : float array;
     width : int;
     height : int;
 }
@@ -63,7 +63,7 @@ let survey (mss : move list list) : bounds =
 
 let select (width : int) (j : int) (i : int) : int = (width * i) + j
 
-let init (b : bounds) : (grid * position) =
+let init (label : float) (void : float) (b : bounds) : (grid * position) =
     let width : int = (b.right - b.left) + 1 in
     let height : int = (b.top - b.bottom) + 1 in
     let start : position = {
@@ -71,17 +71,17 @@ let init (b : bounds) : (grid * position) =
         y = height - 1 + b.bottom;
     } in
     let g : grid = {
-        buffer = Array.make (width * height) '.';
+        buffer = Array.make (width * height) void;
         width = width;
         height = height;
     } in
-    g.buffer.(select width start.x start.y) <- 'O';
+    g.buffer.(select width start.x start.y) <- label;
     (g, start)
 
 let distance (a : position) (b : position) : int =
     (b.x - a.x |> abs) + (b.y - a.y |> abs)
 
-let rec traverse (f : grid -> position -> unit) (label : char) (g : grid)
+let rec traverse (f : grid -> position -> unit) (label : float) (g : grid)
         (start : position) (p : position) : move -> unit =
     function
         | Up i ->
@@ -125,8 +125,8 @@ let rec traverse (f : grid -> position -> unit) (label : char) (g : grid)
                  f g p;
                  traverse f label g start p (Right (i - 1)))
 
-let iterate (label : char) (g : grid) (start : position) (ms : move list)
-    : int option =
+let iterate (label : float) (void : float) (g : grid) (start : position)
+        (ms : move list) : int option =
     let p = {
         x = start.x;
         y = start.y;
@@ -134,7 +134,7 @@ let iterate (label : char) (g : grid) (start : position) (ms : move list)
     let d : int option ref = ref None in
     let f (g : grid) (p : position) : unit =
         let ij : int = select g.width p.x p.y in
-        if (g.buffer.(ij) = '.') || (g.buffer.(ij) = label) then
+        if (g.buffer.(ij) = void) || (g.buffer.(ij) = label) then
             g.buffer.(ij) <- label
         else
             let candidate : int = distance start p in
@@ -167,17 +167,19 @@ let print_bounds (b : bounds) : unit =
         b.left
         b.right
 
-let print_grid (g : grid) : unit =
+let print_grid (void : float) (g : grid) : unit =
     let n : int = Array.length g.buffer in
     let rec loop (i : int) : unit =
         if (i < n) then
-            (let w : char array =
+            (let l : float array =
                  Array.sub
                      g.buffer
                      i
                      (min g.width (n - i)) in
              let buf : Buffer.t = Buffer.create g.width in
-             Array.iter (Buffer.add_char buf) w;
+             Array.to_seq l
+             |> Seq.map (fun x -> if x = void then ' ' else '.')
+             |> Seq.iter (Buffer.add_char buf);
              Buffer.contents buf |> Printf.fprintf stdout "%s\n";
              loop (i + g.width))
         else
