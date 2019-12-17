@@ -1,6 +1,6 @@
 (* Day 3: Crossed Wires (Part 1) *)
 
-let filter_map (f : 'a -> 'b option) : 'a list -> 'b list =
+let rev_filter_map (f : 'a -> 'b option) : 'a list -> 'b list =
     let rec loop (ys : 'b list) : 'a list -> 'b list = function
         | [] -> ys
         | x :: xs ->
@@ -14,7 +14,8 @@ let () : unit =
         Io.read_file Sys.argv.(1)
         |> List.to_seq
         |> Seq.map (String.split_on_char ',')
-        |> Seq.map (filter_map Terrain.parse)
+        |> Seq.map (rev_filter_map Terrain.parse)
+        |> Seq.map List.rev
         |> List.of_seq in
     let b : Terrain.bounds = mss |> Terrain.survey in
     Terrain.print_bounds b;
