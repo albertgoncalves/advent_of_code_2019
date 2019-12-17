@@ -15,12 +15,13 @@ let calculate (xs : int array) : (int * int) =
     let a : int ref = ref 0 in
     let b : int ref = ref 0 in
     let c : int ref = ref 0 in
-    let f : int -> unit = function
-        | 0 -> a := !a + 1
-        | 1 -> b := !b + 1
-        | 2 -> c := !c + 1
-        | _ -> () in
-    Array.iter f xs;
+    Array.iter
+        (function
+            | 0 -> a := !a + 1
+            | 1 -> b := !b + 1
+            | 2 -> c := !c + 1
+            | _ -> ())
+        xs;
     (!a, !b * !c)
 
 let iterate (xs : int array) (m : int) (n : int) : int =
