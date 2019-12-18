@@ -33,10 +33,11 @@ let iterate (xs : int array) : int option =
     loop 0 0
 
 let maybe_print : int option -> unit = function
-    | Some x -> Printf.fprintf stdout "%d\n%!" x
+    | Some x -> Printf.fprintf stdout "%d\n" x
     | None -> ()
 
 let () : unit =
+    at_exit (fun () -> flush stdout);
     input_line stdin
     |> String.split_on_char ','
     |> List.map int_of_string

@@ -79,11 +79,11 @@ let iterate (ps : position array) : (position * int) =
     loop 0 0 0
 
 let () : unit =
+    at_exit (fun () -> flush stdout);
     let lines : string list = read_file Sys.argv.(1) in
     List.iter (Printf.fprintf stdout "%s\n") lines;
     String.concat "" lines
     |> transform (List.hd lines |> String.length)
     |> Array.of_list
     |> iterate
-    |> (fun (p, v) ->
-        Printf.fprintf stdout "{x: %d, y: %d}\n%d\n%!" p.x p.y v)
+    |> (fun (p, v) -> Printf.fprintf stdout "{x: %d, y: %d}\n%d\n" p.x p.y v)

@@ -22,13 +22,14 @@ let iterate (x : int) : int =
     loop 0 (calculate x)
 
 let () : unit =
+    at_exit (fun () -> flush stdout);
     try
         read_file Sys.argv.(1)
         |> List.to_seq
         |> Seq.map int_of_string
         |> Seq.map iterate
         |> Seq.fold_left (+) 0
-        |> Printf.fprintf stdout "%d\n%!"
+        |> Printf.fprintf stdout "%d\n"
     with _ ->
-        Printf.fprintf stdout "%s <filename: string>%!" Sys.argv.(0);
+        Printf.fprintf stdout "%s <filename: string>" Sys.argv.(0);
         exit 1

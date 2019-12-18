@@ -1,25 +1,14 @@
 (* Day 8: Space Image Format (Part 1) *)
 
-let rec print_array (xs : int array) (m : int ) (n : int) (i : int) : unit =
-    if i < m then
-        (Array.sub xs i n
-         |> Array.to_list
-         |> List.map string_of_int
-         |> String.concat ""
-         |> Printf.fprintf stdout "%s\n";
-         print_array xs m n (i + n))
-    else
-        ()
-
 let calculate (xs : int array) : (int * int) =
     let a : int ref = ref 0 in
     let b : int ref = ref 0 in
     let c : int ref = ref 0 in
     Array.iter
         (function
-            | 0 -> a := !a + 1
-            | 1 -> b := !b + 1
-            | 2 -> c := !c + 1
+            | 0 -> incr a
+            | 1 -> incr b
+            | 2 -> incr c
             | _ -> ())
         xs;
     (!a, !b * !c)

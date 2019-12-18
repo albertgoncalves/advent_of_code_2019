@@ -24,9 +24,10 @@ let rec pretty_print : int list -> unit = function
     | a :: b :: c :: [] -> Printf.fprintf stdout "%d\t%d\t%d\n" a b c
     | a :: b :: [] -> Printf.fprintf stdout "%d\t%d\n" a b
     | a :: [] -> Printf.fprintf stdout "%d\n" a
-    | [] -> flush stdout
+    | [] -> ()
 
 let () : unit =
+    at_exit (fun () -> flush stdout);
     input_line stdin
     |> String.split_on_char ','
     |> List.map int_of_string

@@ -12,6 +12,7 @@ let rev_filter_map (f : 'a -> 'b option) : 'a list -> 'b list =
 let newline () : unit = Printf.fprintf stdout "\n"
 
 let () : unit =
+    at_exit (fun () -> flush stdout);
     let mss : Terrain.move list list =
         Io.read_file Sys.argv.(1)
         |> List.to_seq
@@ -44,5 +45,4 @@ let () : unit =
          newline ();
          Terrain.print_grid void g)
     else
-        ();
-    flush stdout
+        ()
