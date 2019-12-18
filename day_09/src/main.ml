@@ -85,7 +85,11 @@ let rec iterate (p : program) (inputs : (int) Queue.t) : unit =
         | _ -> exit 1
 
 let init (xs : int array) (n : int) : program =
-    let p : program = {xs = Array.make 10000 0; i = 0; offset = 0} in
+    let p : program = {
+        xs = Array.make 10000 0;
+        i = 0;
+        offset = 0;
+    } in
     for i = 0 to (n - 1) do
         p.xs.(i) <- xs.(i)
     done;
