@@ -1,4 +1,4 @@
-(* Day 2: 1202 Program Alarm (Part 1) *)
+(* Day 2: 1202 Program Alarm (Part 1) | Answer: 9706670 *)
 
 let calculate (xs : int array) : int array =
     xs.(1) <- 12;

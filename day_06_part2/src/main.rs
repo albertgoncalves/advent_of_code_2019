@@ -1,4 +1,4 @@
-/* Day 6: Universal Orbit Map (Part 2) */
+/* Day 6: Universal Orbit Map (Part 2) | Answer: 283 */
 
 use std::collections::HashMap;
 use std::env;

@@ -1,4 +1,4 @@
-/* Day 7: Amplification Circuit (Part 2) */
+/* Day 7: Amplification Circuit (Part 2) | Answer: 17519904 */
 
 use permutohedron::heap_recursive;
 use std::io::{self, Read};

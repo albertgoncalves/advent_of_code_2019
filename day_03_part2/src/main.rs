@@ -1,4 +1,4 @@
-/* Day 3: Crossed Wires (Part 2) */
+/* Day 3: Crossed Wires (Part 2) | Answer: 14746 */
 
 use std::collections::HashMap;
 use std::env;

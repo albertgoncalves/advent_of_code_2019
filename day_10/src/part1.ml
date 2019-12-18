@@ -1,4 +1,4 @@
-(* Day 10: Monitoring Station (Part 1) *)
+(* Day 10: Monitoring Station (Part 1) | Answer: 299 *)
 
 let read_file (filename : string) : string list =
     let lines : string list ref = ref [] in

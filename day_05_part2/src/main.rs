@@ -1,4 +1,4 @@
-/* Day 5: Sunny with a Chance of Asteroids (Part 2) */
+/* Day 5: Sunny with a Chance of Asteroids (Part 2) | Answer: 11956381 */
 
 use std::io::{self, Read};
 

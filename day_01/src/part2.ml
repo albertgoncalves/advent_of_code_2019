@@ -1,4 +1,4 @@
-(* Day 1: The Tyranny of the Rocket Equation (Part 2) *)
+(* Day 1: The Tyranny of the Rocket Equation (Part 2) | Answer: 5021154 *)
 
 let read_file (filename : string) : string list =
     let lines : string list ref = ref [] in

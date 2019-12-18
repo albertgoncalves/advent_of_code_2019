@@ -1,4 +1,4 @@
-(* Day 3: Crossed Wires (Part 1) *)
+(* Day 3: Crossed Wires (Part 1) | Answer: 375 *)
 
 let rev_filter_map (f : 'a -> 'b option) : 'a list -> 'b list =
     let rec loop (ys : 'b list) : 'a list -> 'b list = function

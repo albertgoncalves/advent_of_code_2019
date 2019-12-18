@@ -1,4 +1,4 @@
-(* Day 4: Secure Container (Part 2) *)
+(* Day 4: Secure Container (Part 2) | Answer: 299 *)
 
 let stdin_to_pair ((): unit) : (int * int) =
     let xs : int option list =

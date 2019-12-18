@@ -1,4 +1,4 @@
-(* Day 2: 1202 Program Alarm (Part 2) *)
+(* Day 2: 1202 Program Alarm (Part 2) | Answer: 2552 *)
 
 let calculate (xs : int array) (a : int) (b : int) : int array =
     xs.(1) <- a;

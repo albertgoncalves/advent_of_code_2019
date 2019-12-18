@@ -1,4 +1,4 @@
-(* Day 8: Space Image Format (Part 2) *)
+(* Day 8: Space Image Format (Part 2) | Answer: FKAHL *)
 
 let rec print_array (m : int ) (n : int) (i : int) (xs : int array) : unit =
     if i < m then

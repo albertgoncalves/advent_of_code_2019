@@ -1,4 +1,4 @@
-(* Day 8: Space Image Format (Part 1) *)
+(* Day 8: Space Image Format (Part 1) | Answer: 1950 *)
 
 let calculate (xs : int array) : (int * int) =
     let a : int ref = ref 0 in
