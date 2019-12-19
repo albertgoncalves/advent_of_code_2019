@@ -40,12 +40,9 @@ let rec iterate (p : program) (inputs : (int) Queue.t) : unit =
                 iterate p inputs
             )
         | 3 -> (
-                (
-                    try
-                        p.xs.(index p 1) <- Queue.take inputs
-                    with Queue.Empty ->
-                        ()
-                );
+                let () : unit = match Queue.take_opt inputs with
+                    | Some input -> p.xs.(index p 1) <- input
+                    | None -> () in
                 p.i <- p.i + 2;
                 iterate p inputs
             )
