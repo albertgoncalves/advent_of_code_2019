@@ -41,22 +41,26 @@ let survey (mss : move list list) : bounds =
         right = 0;
     } in
     let rec loop (x : int) (y : int) : move list -> unit = function
-        | Up m :: ms ->
-            let y : int = y + m in
-            let _ : unit = b.top <- max b.top y in
-            loop x y ms
-        | Down m :: ms ->
-            let y : int = y - m in
-            let _ : unit = b.bottom <- min b.bottom y in
-            loop x y ms
-        | Left m :: ms ->
-            let x : int = x - m in
-            let _ : unit = b.left <- min b.left x in
-            loop x y ms
-        | Right m :: ms ->
-            let x : int = x + m in
-            let _ : unit = b.right <- max b.right x in
-            loop x y ms
+        | Up m :: ms -> (
+                let y : int = y + m in
+                b.top <- max b.top y;
+                loop x y ms
+            )
+        | Down m :: ms -> (
+                let y : int = y - m in
+                b.bottom <- min b.bottom y;
+                loop x y ms
+            )
+        | Left m :: ms -> (
+                let x : int = x - m in
+                b.left <- min b.left x;
+                loop x y ms
+            )
+        | Right m :: ms -> (
+                let x : int = x + m in
+                b.right <- max b.right x;
+                loop x y ms
+            )
         | [] -> () in
     List.iter (loop 0 0) mss;
     b

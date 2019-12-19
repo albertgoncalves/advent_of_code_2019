@@ -18,7 +18,7 @@ let () : unit =
     let (ms1, ms2) : (Terrain.move list * Terrain.move list) = match mss with
         | [ms1; ms2] -> (ms1, ms2)
         | _ -> exit 1 in
-    let _ : int option = Terrain.iterate 1.0 void g start ms1 in
+    ignore (Terrain.iterate 1.0 void g start ms1);
     let x : int = match Terrain.iterate 2.0 void g start ms2 with
         | Some x -> x
         | None -> exit 1 in

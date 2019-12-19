@@ -10,10 +10,12 @@ let calculate (xs : int array) : int array =
             let j : int = xs.(i + 1) in
             let k : int = xs.(i + 2) in
             let l : int = xs.(i + 3) in
-            let _ : unit = match xs.(i) with
-                | 1 -> xs.(l) <- xs.(j) + xs.(k)
-                | 2 -> xs.(l) <- xs.(j) * xs.(k)
-                | _ -> () in
+            (
+                match xs.(i) with
+                    | 1 -> xs.(l) <- xs.(j) + xs.(k)
+                    | 2 -> xs.(l) <- xs.(j) * xs.(k)
+                    | _ -> ()
+            );
             loop n (i + 4) in
     loop (Array.length xs) 0
 
