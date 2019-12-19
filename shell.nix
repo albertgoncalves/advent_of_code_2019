@@ -1,6 +1,6 @@
 with import <nixpkgs> {};
 let
-    ocamlPackages = ocaml-ng.ocamlPackages_4_07.overrideScope' (self: super: {
+    ocamlPackages = ocaml-ng.ocamlPackages_4_09.overrideScope' (self: super: {
         ocaml = super.ocaml.override {
             flambdaSupport = false;
         };
