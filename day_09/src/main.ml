@@ -2,7 +2,7 @@
                        (Part 2) | Answer: 60962 *)
 
 type program = {
-    mutable xs : int array;
+    xs : int array;
     mutable i : int;
     mutable offset : int;
 }
