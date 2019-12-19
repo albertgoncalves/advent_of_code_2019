@@ -27,60 +27,71 @@ let advance (p : program) (j : int) (n : int) : unit =
 
 let rec iterate (p : program) (inputs : (int) Queue.t) : unit =
     match p.xs.(p.i) mod 100 with
-        | 1 ->
-            (let j : int = index p 3 in
-             p.xs.(j) <- p.xs.(index p 1) + p.xs.(index p 2);
-             advance p j 4;
-             iterate p inputs)
-        | 2 ->
-            (let j : int = index p 3 in
-             p.xs.(j) <- p.xs.(index p 1) * p.xs.(index p 2);
-             advance p j 4;
-             iterate p inputs)
-        | 3 ->
-            ((try
-                 p.xs.(index p 1) <- Queue.take inputs
-             with Queue.Empty ->
-                 ());
-             p.i <- p.i + 2;
-             iterate p inputs)
-        | 4 ->
-            (Printf.fprintf stdout "%d\n" p.xs.(index p 1);
-             p.i <- p.i + 2;
-             iterate p inputs)
-        | 5 ->
-            (if p.xs.(index p 1) <> 0 then
-                 p.i <- p.xs.(index p 2)
-             else
-                 p.i <- p.i + 3;
-             iterate p inputs)
-        | 6 ->
-            (if p.xs.(index p 1) = 0 then
-                 p.i <- p.xs.(index p 2)
-             else
-                 p.i <- p.i + 3;
-             iterate p inputs)
-        | 7 ->
-            (let j : int = index p 3 in
-             if p.xs.(index p 1) < p.xs.(index p 2) then
-                 p.xs.(j) <- 1
-             else
-                 p.xs.(j) <- 0;
-             advance p j 4;
-             iterate p inputs)
-        | 8 ->
-            (let j : int = index p 3 in
-             if p.xs.(index p 1) = p.xs.(index p 2) then
-                 p.xs.(j) <- 1
-             else
-                 p.xs.(j) <- 0;
-             advance p j 4;
-             iterate p inputs)
-        | 9 ->
-            (let j : int = index p 1 in
-             p.offset <- p.offset + p.xs.(j);
-             advance p j 2;
-             iterate p inputs)
+        | 1 -> (
+                let j : int = index p 3 in
+                p.xs.(j) <- p.xs.(index p 1) + p.xs.(index p 2);
+                advance p j 4;
+                iterate p inputs
+            )
+        | 2 -> (
+                let j : int = index p 3 in
+                p.xs.(j) <- p.xs.(index p 1) * p.xs.(index p 2);
+                advance p j 4;
+                iterate p inputs
+            )
+        | 3 -> (
+                (
+                    try
+                        p.xs.(index p 1) <- Queue.take inputs
+                    with Queue.Empty ->
+                        ()
+                );
+                p.i <- p.i + 2;
+                iterate p inputs
+            )
+        | 4 -> (
+                Printf.fprintf stdout "%d\n" p.xs.(index p 1);
+                p.i <- p.i + 2;
+                iterate p inputs
+            )
+        | 5 -> (
+                if p.xs.(index p 1) <> 0 then
+                    p.i <- p.xs.(index p 2)
+                else
+                    p.i <- p.i + 3;
+                iterate p inputs
+            )
+        | 6 -> (
+                if p.xs.(index p 1) = 0 then
+                    p.i <- p.xs.(index p 2)
+                else
+                    p.i <- p.i + 3;
+                iterate p inputs
+            )
+        | 7 -> (
+                let j : int = index p 3 in
+                if p.xs.(index p 1) < p.xs.(index p 2) then
+                    p.xs.(j) <- 1
+                else
+                    p.xs.(j) <- 0;
+                advance p j 4;
+                iterate p inputs
+            )
+        | 8 -> (
+                let j : int = index p 3 in
+                if p.xs.(index p 1) = p.xs.(index p 2) then
+                    p.xs.(j) <- 1
+                else
+                    p.xs.(j) <- 0;
+                advance p j 4;
+                iterate p inputs
+            )
+        | 9 -> (
+                let j : int = index p 1 in
+                p.offset <- p.offset + p.xs.(j);
+                advance p j 2;
+                iterate p inputs
+            )
         | 99 -> ()
         | _ -> exit 1
 

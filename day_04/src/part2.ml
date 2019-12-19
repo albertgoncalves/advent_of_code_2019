@@ -17,7 +17,7 @@ let int_to_digits (x : int) : int list =
 
 let validate (xs : int list) : bool =
     let rec f (a : int) (b : int) (flag : bool) (condition : bool)
-            (xs : int list) : bool =
+        (xs : int list) : bool =
         if b < a then
             false
         else if condition then

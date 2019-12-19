@@ -82,51 +82,55 @@ let distance (a : position) (b : position) : int =
     (b.x - a.x |> abs) + (b.y - a.y |> abs)
 
 let rec traverse (f : grid -> position -> unit) (label : float) (g : grid)
-        (start : position) (p : position) : move -> unit =
+    (start : position) (p : position) : move -> unit =
     function
         | Up i ->
             if i <= 0 then
                 ()
-            else if i = 1 then
-                (p.y <- p.y - 1;
-                 f g p)
-            else
-                (p.y <- p.y - 1;
-                 f g p;
-                 traverse f label g start p (Up (i - 1)))
+            else if i = 1 then (
+                p.y <- p.y - 1;
+                f g p
+            ) else (
+                p.y <- p.y - 1;
+                f g p;
+                traverse f label g start p (Up (i - 1))
+            )
         | Down i ->
             if i <= 0 then
                 ()
-            else if i = 1 then
-                (p.y <- p.y + 1;
-                 f g p)
-            else
-                (p.y <- p.y + 1;
-                 f g p;
-                 traverse f label g start p (Down (i - 1)))
+            else if i = 1 then (
+                p.y <- p.y + 1;
+                f g p
+            ) else (
+                p.y <- p.y + 1;
+                f g p;
+                traverse f label g start p (Down (i - 1))
+            )
         | Left i ->
             if i <= 0 then
                 ()
-            else if i = 1 then
-                (p.x <- p.x - 1;
-                 f g p)
-            else
-                (p.x <- p.x - 1;
-                 f g p;
-                 traverse f label g start p (Left (i - 1)))
+            else if i = 1 then (
+                p.x <- p.x - 1;
+                f g p
+            ) else (
+                p.x <- p.x - 1;
+                f g p;
+                traverse f label g start p (Left (i - 1))
+            )
         | Right i ->
             if i <= 0 then
                 ()
-            else if i = 1 then
-                (p.x <- p.x + 1;
-                 f g p)
-            else
-                (p.x <- p.x + 1;
-                 f g p;
-                 traverse f label g start p (Right (i - 1)))
+            else if i = 1 then (
+                p.x <- p.x + 1;
+                f g p
+            ) else (
+                p.x <- p.x + 1;
+                f g p;
+                traverse f label g start p (Right (i - 1))
+            )
 
 let iterate (label : float) (void : float) (g : grid) (start : position)
-        (ms : move list) : int option =
+    (ms : move list) : int option =
     let p = {
         x = start.x;
         y = start.y;
@@ -150,12 +154,13 @@ let iterate (label : float) (void : float) (g : grid) (start : position)
 
 let print_moves (ms : move list) : unit =
     let f : string -> int -> unit = Printf.fprintf stdout "%s\t%d\n" in
-    List.iter
-        (function
+    List.iter (
+        function
             | Up x -> f "Up" x
             | Down x -> f "Down" x
             | Left x -> f "Left" x
-            | Right x -> f "Right" x)
+            | Right x -> f "Right" x
+    )
         ms
 
 let print_bounds (b : bounds) : unit =
@@ -170,18 +175,18 @@ let print_bounds (b : bounds) : unit =
 let print_grid (void : float) (g : grid) : unit =
     let n : int = Array.length g.buffer in
     let rec loop (i : int) : unit =
-        if (i < n) then
-            (let l : float array =
-                 Array.sub
-                     g.buffer
-                     i
-                     (min g.width (n - i)) in
-             let buf : Buffer.t = Buffer.create g.width in
-             Array.to_seq l
-             |> Seq.map (fun x -> if x = void then ' ' else '.')
-             |> Seq.iter (Buffer.add_char buf);
-             Buffer.contents buf |> Printf.fprintf stdout "%s\n";
-             loop (i + g.width))
-        else
+        if (i < n) then (
+            let l : float array =
+                Array.sub
+                    g.buffer
+                    i
+                    (min g.width (n - i)) in
+            let buf : Buffer.t = Buffer.create g.width in
+            Array.to_seq l
+            |> Seq.map (fun x -> if x = void then ' ' else '.')
+            |> Seq.iter (Buffer.add_char buf);
+            Buffer.contents buf |> Printf.fprintf stdout "%s\n";
+            loop (i + g.width)
+        ) else
             () in
     loop 0

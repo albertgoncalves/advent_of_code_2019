@@ -36,13 +36,14 @@ let () : unit =
     newline ();
     Terrain.print_bounds b;
     n |> Printf.fprintf stdout "Size\t%d\n";
-    if n < 128 then
-        (List.iter
-             (fun ms ->
-                  newline ();
-                  Terrain.print_moves ms)
-             mss;
-         newline ();
-         Terrain.print_grid void g)
-    else
+    if n < 128 then (
+        List.iter (
+            fun ms ->
+                newline ();
+                Terrain.print_moves ms
+        )
+            mss;
+        newline ();
+        Terrain.print_grid void g
+    ) else
         ()

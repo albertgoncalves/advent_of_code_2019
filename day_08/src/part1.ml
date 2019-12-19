@@ -4,12 +4,13 @@ let calculate (xs : int array) : (int * int) =
     let a : int ref = ref 0 in
     let b : int ref = ref 0 in
     let c : int ref = ref 0 in
-    Array.iter
-        (function
+    Array.iter (
+        function
             | 0 -> incr a
             | 1 -> incr b
             | 2 -> incr c
-            | _ -> ())
+            | _ -> ()
+    )
         xs;
     (!a, !b * !c)
 
@@ -31,9 +32,11 @@ let () : unit =
         input_line chan
         |> String.split_on_char ' '
         |> List.map int_of_string
-        |> (function
-            | [a; b] -> a * b
-            | _ -> exit 1) in
+        |> (
+            function
+                | [a; b] -> a * b
+                | _ -> exit 1
+        ) in
     let s : string = input_line chan in
     close_in chan;
     let m : int = String.length s in
