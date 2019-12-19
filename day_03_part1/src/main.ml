@@ -1,14 +1,5 @@
 (* Day 3: Crossed Wires (Part 1) | Answer: 375 *)
 
-let rev_filter_map (f : 'a -> 'b option) : 'a list -> 'b list =
-    let rec loop (ys : 'b list) : 'a list -> 'b list = function
-        | [] -> ys
-        | x :: xs ->
-            match f x with
-                | Some y -> loop (y :: ys) xs
-                | None -> loop ys xs in
-    loop []
-
 let newline () : unit = Printf.fprintf stdout "\n"
 
 let () : unit =
@@ -17,8 +8,7 @@ let () : unit =
         Io.read_file Sys.argv.(1)
         |> List.to_seq
         |> Seq.map (String.split_on_char ',')
-        |> Seq.map (rev_filter_map Terrain.parse)
-        |> Seq.map List.rev
+        |> Seq.map (List.filter_map Terrain.parse)
         |> List.of_seq in
     let b : Terrain.bounds = mss |> Terrain.survey in
     let void : float = 0.0 in
