@@ -40,9 +40,9 @@ let rec iterate (p : program) (inputs : (int) Queue.t) : unit =
                 iterate p inputs
             )
         | 3 -> (
-                let () : unit = match Queue.take_opt inputs with
-                    | Some input -> p.xs.(index p 1) <- input
-                    | None -> () in
+                Option.iter
+                    (fun x -> p.xs.(index p 1) <- x)
+                    (Queue.take_opt inputs);
                 p.i <- p.i + 2;
                 iterate p inputs
             )
