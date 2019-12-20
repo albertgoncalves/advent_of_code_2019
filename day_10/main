@@ -3,6 +3,6 @@
 set -e
 
 if [ "$2" = "lint" ]; then
-    ocp-indent -i src/part1.ml
+    ocp-indent -i src/main.ml
 fi
-ocaml -w +1..66 src/part1.ml "$1"
+ocaml -w +1..66-42 src/main.ml "$1"
