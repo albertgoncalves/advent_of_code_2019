@@ -13,12 +13,12 @@ let read_file (filename : string) : string list =
     List.rev !lines
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     try
         read_file Sys.argv.(1)
         |> List.to_seq
         |> Seq.map int_of_string
-        |> Seq.map (fun x -> (x / 3) - 2)
+        |> Seq.map (fun (x : int) : int -> (x / 3) - 2)
         |> Seq.fold_left (+) 0
         |> Printf.fprintf stdout "%d\n"
     with _ ->

@@ -23,7 +23,7 @@ let iterate (x : int) : int =
     loop 0 (calculate x)
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     try
         read_file Sys.argv.(1)
         |> List.to_seq

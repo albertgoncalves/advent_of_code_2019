@@ -27,7 +27,7 @@ let rec calculate (xs : int array) (m : int) (n : int) (i : int) : int =
         xs.(i - n)
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     let chan : in_channel = open_in Sys.argv.(1) in
     let (width, height) : (int * int) =
         input_line chan
@@ -43,6 +43,10 @@ let () : unit =
     close_in chan;
     let m : int = String.length s in
     let xs : int array = Array.make (String.length s) 0 in
-    String.iteri (fun i c -> xs.(i) <- Char.escaped c |> int_of_string) s;
-    Array.mapi (fun i _ -> calculate xs m n i) (Array.make n 0)
+    String.iteri (
+        fun (i : int) (c : char) : unit ->
+            xs.(i) <- Char.escaped c |> int_of_string
+    )
+        s;
+    Array.mapi (fun (i : int) _ : int -> calculate xs m n i) (Array.make n 0)
     |> print_array n width 0

@@ -187,7 +187,9 @@ let print_grid (void : float) (g : grid) : unit =
                     (min g.width (n - i)) in
             let buf : Buffer.t = Buffer.create g.width in
             Array.to_seq l
-            |> Seq.map (fun x -> if x = void then ' ' else '.')
+            |> Seq.map (
+                fun (x : float) : char -> if x = void then ' ' else '.'
+            )
             |> Seq.iter (Buffer.add_char buf);
             Buffer.contents buf |> Printf.fprintf stdout "%s\n";
             loop (i + g.width)

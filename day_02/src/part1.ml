@@ -29,7 +29,7 @@ let rec pretty_print : int list -> unit = function
     | [] -> ()
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     input_line stdin
     |> String.split_on_char ','
     |> List.map int_of_string

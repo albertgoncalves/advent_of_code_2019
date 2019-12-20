@@ -41,5 +41,9 @@ let () : unit =
     close_in chan;
     let m : int = String.length s in
     let xs : int array = Array.make (String.length s) 0 in
-    String.iteri (fun i c -> xs.(i) <- Char.escaped c |> int_of_string) s;
+    String.iteri (
+        fun (i : int) (c : char) : unit ->
+            xs.(i) <- Char.escaped c |> int_of_string
+    )
+        s;
     iterate xs m n |> Printf.fprintf stdout "%d\n%!"

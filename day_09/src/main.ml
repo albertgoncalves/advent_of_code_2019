@@ -41,7 +41,7 @@ let rec iterate (p : program) (inputs : (int) Queue.t) : unit =
             )
         | 3 -> (
                 Option.iter
-                    (fun x -> p.xs.(index p 1) <- x)
+                    (fun (x : int) : unit -> p.xs.(index p 1) <- x)
                     (Queue.take_opt inputs);
                 p.i <- p.i + 2;
                 iterate p inputs

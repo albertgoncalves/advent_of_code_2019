@@ -3,7 +3,7 @@
 let newline () : unit = Printf.fprintf stdout "\n"
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     let mss : Terrain.move list list =
         Io.read_file Sys.argv.(1)
         |> List.to_seq
@@ -28,7 +28,7 @@ let () : unit =
     n |> Printf.fprintf stdout "Size\t%d\n";
     if n < 128 then (
         List.iter (
-            fun ms ->
+            fun (ms : Terrain.move list) : unit ->
                 newline ();
                 Terrain.print_moves ms
         )

@@ -12,8 +12,11 @@ let stdin_to_pair ((): unit) : (int * int) =
 let int_to_digits (x : int) : int list =
     x
     |> string_of_int
-    |> (fun y -> List.init (String.length y) (String.get y))
-    |> List.map (fun y -> Char.escaped y |> int_of_string)
+    |> (
+        fun (y : string) : char list ->
+            List.init (String.length y) (String.get y)
+    )
+    |> List.map (fun (y : char) : int -> Char.escaped y |> int_of_string)
 
 let validate (xs : int list) : bool =
     let rec f (a : int) (b : int) (flag : bool) (condition : bool)
