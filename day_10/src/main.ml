@@ -117,13 +117,15 @@ let collect (rs : relation list) : relation list array =
     loop [] [] infinity rs |> List.rev |> Array.of_list
 
 let target (t : int) (gs : relation list array) : relation option =
+    (* NOTE: This can fall into infinite loop if `t` is too high. Unsure what
+       heuristic to employ to catch this ahead of time. *)
     let n : int = Array.length gs in
     let rec loop (r : relation option) (i : int) (k : int) =
         if k = t then
             r
         else
             let j =
-                if i < n then
+                if i < (n - 1) then
                     i + 1
                 else
                     0 in
@@ -139,9 +141,11 @@ let () : unit =
     at_exit (fun () : unit -> flush stdout);
     let lines : string list = read_file Sys.argv.(1) in
     List.iter (Printf.fprintf stdout "%s\n") lines;
+    let n : int = List.hd lines |> int_of_string in
+    let ls : string list = List.tl lines in
     let ps : position array =
-        String.concat "" lines
-        |> transform (List.hd lines |> String.length)
+        String.concat "" ls
+        |> transform (List.hd ls |> String.length)
         |> Array.of_list in
     let (p, v) : (position * int) = iterate ps in
     Printf.fprintf stdout "{x: %d, y: %d}\n%d\n" p.x p.y v;
@@ -153,7 +157,7 @@ let () : unit =
     Array.sort order rs;
     Array.to_list rs
     |> collect
-    |> target 200
+    |> target n
     |> Option.iter (
         fun (r : relation) : unit ->
             Printf.fprintf stdout "%d" ((r.x * 100) + r.y)
