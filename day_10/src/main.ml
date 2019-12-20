@@ -132,7 +132,7 @@ let target (t : int) (gs : relation list array) : relation option =
                         gs.(i) <- rs;
                         loop (Some r) j (k + 1)
                     )
-                | [] -> loop r j (k + 1) in
+                | [] -> loop r j k in
     loop None 0 0
 
 let () : unit =
