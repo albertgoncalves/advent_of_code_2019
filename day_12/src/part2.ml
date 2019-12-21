@@ -16,8 +16,6 @@ type container = {
     ctr : counter;
 }
 
-let n : int = 4
-
 let init (a : int) (b : int) (c : int) (d : int) : container =
     (* NOTE: Due to how `array`s of `record`s work, the `dimension array`s must
        be identical `dimension array` literals to allow `counter.reference` to
@@ -46,6 +44,7 @@ let init (a : int) (b : int) (c : int) (d : int) : container =
 let x : container = init 17 2 (-1) 12
 let y : container = init (-12) 1 (-17) (-14)
 let z : container = init 13 1 7 18
+let n : int = 4
 
 let calculate (i : int) (j : int) : unit =
     (
