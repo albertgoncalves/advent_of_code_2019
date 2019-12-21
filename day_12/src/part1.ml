@@ -125,8 +125,6 @@ let print_body (b : body) : unit =
         b.vel.y
         b.vel.z
 
-let newline () : unit = Printf.fprintf stdout "\n"
-
 let () : unit =
     at_exit (fun () -> flush stdout);
     for _ = 0 to 999 do
