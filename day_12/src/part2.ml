@@ -14,9 +14,9 @@ type counter = {
 let n : int = 4
 
 (* NOTE: Due to how `array`s of `record`s work, the `dimension array`s must be
-   identical `dimension array` literals to allow the the `counter.reference` to
-   remain unaltered by `iterate (); update ();`. `Array.copy` will *not* do the
-   trick, as the underlying `dimension` records are still referenced via shared
+   identical `dimension array` literals to allow `counter.reference` to remain
+   unaltered by `iterate (); update ();`. `Array.copy` will *not* do the trick,
+   as the underlying `dimension` records are still referenced via shared
    pointers. *)
 let x : dimension array = [|
     {pos = 17; vel = 0};
@@ -160,5 +160,5 @@ let rec tally () : int =
     )
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     Printf.fprintf stdout "%d\n" (tally ())

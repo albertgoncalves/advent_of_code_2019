@@ -126,7 +126,7 @@ let print_body (b : body) : unit =
         b.vel.z
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     for _ = 0 to 999 do
         iterate ();
         update ();

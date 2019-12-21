@@ -172,7 +172,7 @@ let rec print_array (m : int) (n : int) (i : int) (xs : int array) : unit =
         ()
 
 let () : unit =
-    at_exit (fun () -> flush stdout);
+    at_exit (fun () : unit -> flush stdout);
     let xs : int array =
         input_line stdin
         |> String.split_on_char ','
