@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+set -e
+
+if [ "$1" = "lint" ]; then
+    ocp-indent -i src/main.ml
+fi
+ocaml -w +1..66 src/main.ml < input.txt
