@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+for x in bin build; do
+    if [ ! -d $x ]; then
+        mkdir $x
+    fi
+done
+
+for x in part1 part2; do
+    if [ "$1" = "lint" ]; then
+        ocp-indent -i src/$x.ml
+    fi
+    cp src/$x.ml build/$x.ml
+    ocamlopt -O3 -w +1..66 build/$x.ml -o bin/$x
+    bin/$x
+done
