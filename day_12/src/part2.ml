@@ -11,95 +11,70 @@ type counter = {
     mutable flag : bool;
 }
 
+type container = {
+    dim : dimension array;
+    ctr : counter;
+}
+
 let n : int = 4
 
-(* NOTE: Due to how `array`s of `record`s work, the `dimension array`s must be
-   identical `dimension array` literals to allow `counter.reference` to remain
-   unaltered by `iterate (); update ();`. `Array.copy` will *not* do the trick,
-   as the underlying `dimension` records are still referenced via shared
-   pointers. *)
-let x : dimension array = [|
-    {pos = 17; vel = 0};
-    {pos = 2; vel = 0};
-    {pos = -1; vel = 0};
-    {pos = 12; vel = 0};
-|]
+let init (a : int) (b : int) (c : int) (d : int) : container =
+    (* NOTE: Due to how `array`s of `record`s work, the `dimension array`s must
+       be identical `dimension array` literals to allow `counter.reference` to
+       remain unaltered by `iterate (); update ();`. `Array.copy` will *not* do
+       the trick, as the underlying `dimension` records are still referenced
+       via shared pointers. *)
+    {
+        dim = [|
+            {pos = a; vel = 0};
+            {pos = b; vel = 0};
+            {pos = c; vel = 0};
+            {pos = d; vel = 0};
+        |];
+        ctr = {
+            reference = [|
+                {pos = a; vel = 0};
+                {pos = b; vel = 0};
+                {pos = c; vel = 0};
+                {pos = d; vel = 0};
+            |];
+            n = 1;
+            flag = false;
+        };
+    }
 
-let counter_x = {
-    reference = [|
-        {pos = 17; vel = 0};
-        {pos = 2; vel = 0};
-        {pos = -1; vel = 0};
-        {pos = 12; vel = 0};
-    |];
-    n = 1;
-    flag = false;
-}
-
-let y : dimension array = [|
-    {pos = -12; vel = 0};
-    {pos = 1; vel = 0};
-    {pos = -17; vel = 0};
-    {pos = -14; vel = 0};
-|]
-
-let counter_y = {
-    reference = [|
-        {pos = -12; vel = 0};
-        {pos = 1; vel = 0};
-        {pos = -17; vel = 0};
-        {pos = -14; vel = 0};
-    |];
-    n = 1;
-    flag = false;
-}
-
-let z : dimension array = [|
-    {pos = 13; vel = 0};
-    {pos = 1; vel = 0};
-    {pos = 7; vel = 0};
-    {pos = 18; vel = 0};
-|]
-
-let counter_z = {
-    reference = [|
-        {pos = 13; vel = 0};
-        {pos = 1; vel = 0};
-        {pos = 7; vel = 0};
-        {pos = 18; vel = 0};
-    |];
-    n = 1;
-    flag = false;
-}
+let x : container = init 17 2 (-1) 12
+let y : container = init (-12) 1 (-17) (-14)
+let z : container = init 13 1 7 18
 
 let calculate (i : int) (j : int) : unit =
     (
-        if x.(i).pos < x.(j).pos then (
-            x.(i).vel <- x.(i).vel + 1;
-            x.(j).vel <- x.(j).vel - 1;
-        ) else if x.(j).pos < x.(i).pos then (
-            x.(i).vel <- x.(i).vel - 1;
-            x.(j).vel <- x.(j).vel + 1;
+        if x.dim.(i).pos < x.dim.(j).pos then (
+            x.dim.(i).vel <- x.dim.(i).vel + 1;
+            x.dim.(j).vel <- x.dim.(j).vel - 1;
+        ) else if x.dim.(j).pos < x.dim.(i).pos then (
+            x.dim.(i).vel <- x.dim.(i).vel - 1;
+            x.dim.(j).vel <- x.dim.(j).vel + 1;
         ) else
             ()
     );
     (
-        if y.(i).pos < y.(j).pos then (
-            y.(i).vel <- y.(i).vel + 1;
-            y.(j).vel <- y.(j).vel - 1;
-        ) else if y.(j).pos < y.(i).pos then (
-            y.(i).vel <- y.(i).vel - 1;
-            y.(j).vel <- y.(j).vel + 1;
+        if y.dim.(i).pos < y.dim.(j).pos then (
+            y.dim.(i).vel <- y.dim.(i).vel + 1;
+            y.dim.(j).vel <- y.dim.(j).vel - 1;
+        ) else if y.dim.(j).pos < y.dim.(i).pos then (
+            y.dim.(i).vel <- y.dim.(i).vel - 1;
+            y.dim.(j).vel <- y.dim.(j).vel + 1;
         ) else
             ()
     );
     (
-        if z.(i).pos < z.(j).pos then (
-            z.(i).vel <- z.(i).vel + 1;
-            z.(j).vel <- z.(j).vel - 1;
-        ) else if z.(j).pos < z.(i).pos then (
-            z.(i).vel <- z.(i).vel - 1;
-            z.(j).vel <- z.(j).vel + 1;
+        if z.dim.(i).pos < z.dim.(j).pos then (
+            z.dim.(i).vel <- z.dim.(i).vel + 1;
+            z.dim.(j).vel <- z.dim.(j).vel - 1;
+        ) else if z.dim.(j).pos < z.dim.(i).pos then (
+            z.dim.(i).vel <- z.dim.(i).vel - 1;
+            z.dim.(j).vel <- z.dim.(j).vel + 1;
         ) else
             ()
     )
@@ -113,9 +88,9 @@ let iterate () : unit =
 
 let update () : unit =
     for i = 0 to (n - 1) do
-        x.(i).pos <- x.(i).pos + x.(i).vel;
-        y.(i).pos <- y.(i).pos + y.(i).vel;
-        z.(i).pos <- z.(i).pos + z.(i).vel
+        x.dim.(i).pos <- x.dim.(i).pos + x.dim.(i).vel;
+        y.dim.(i).pos <- y.dim.(i).pos + y.dim.(i).vel;
+        z.dim.(i).pos <- z.dim.(i).pos + z.dim.(i).vel
     done
 
 let rec gcd (a : int) (b : int) : int =
@@ -126,33 +101,33 @@ let rec gcd (a : int) (b : int) : int =
 let lcm (a : int) (b : int) : int = (a * b) / (gcd a b)
 
 let rec tally () : int =
-    if counter_x.flag && counter_y.flag && counter_z.flag then (
-        Printf.fprintf stdout "%d %d %d\n" counter_x.n counter_y.n counter_z.n;
-        lcm counter_x.n (lcm counter_y.n counter_z.n)
+    if x.ctr.flag && y.ctr.flag && z.ctr.flag then (
+        Printf.fprintf stdout "%d %d %d\n" x.ctr.n y.ctr.n z.ctr.n;
+        lcm x.ctr.n (lcm y.ctr.n z.ctr.n)
     ) else (
         iterate ();
         update ();
         (
-            if (not counter_x.flag) && (counter_x.reference <> x) then
-                counter_x.n <- counter_x.n + 1
-            else if (not counter_x.flag) then
-                counter_x.flag <- true
+            if (not x.ctr.flag) && (x.ctr.reference <> x.dim) then
+                x.ctr.n <- x.ctr.n + 1
+            else if (not x.ctr.flag) then
+                x.ctr.flag <- true
             else
                 ()
         );
         (
-            if (not counter_y.flag) && (counter_y.reference <> y) then
-                counter_y.n <- counter_y.n + 1
-            else if (not counter_y.flag) then
-                counter_y.flag <- true
+            if (not y.ctr.flag) && (y.ctr.reference <> y.dim) then
+                y.ctr.n <- y.ctr.n + 1
+            else if (not y.ctr.flag) then
+                y.ctr.flag <- true
             else
                 ()
         );
         (
-            if (not counter_z.flag) && (counter_z.reference <> z) then
-                counter_z.n <- counter_z.n + 1
-            else if (not counter_z.flag) then
-                counter_z.flag <- true
+            if (not z.ctr.flag) && (z.ctr.reference <> z.dim) then
+                z.ctr.n <- z.ctr.n + 1
+            else if (not z.ctr.flag) then
+                z.ctr.flag <- true
             else
                 ()
         );
