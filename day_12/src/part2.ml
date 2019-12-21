@@ -121,7 +121,7 @@ let update () : unit =
 let rec gcd (a : int) (b : int) : int =
     match (a mod b) with
         | 0 -> b
-        | r -> gcd b r
+        | c -> gcd b c
 
 let lcm (a : int) (b : int) : int = (a * b) / (gcd a b)
 
