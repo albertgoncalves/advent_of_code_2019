@@ -1,6 +1,6 @@
 (* Day 8: Space Image Format (Part 2) | Answer: FKAHL *)
 
-let rec print_array (m : int ) (n : int) (i : int) (xs : int array) : unit =
+let rec print_array (m : int) (n : int) (i : int) (xs : int array) : unit =
     if i < m then (
         Array.sub xs i n
         |> Array.to_list
